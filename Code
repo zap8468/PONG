@@ -1,0 +1,183 @@
+PImage img;
+PFont font1;
+
+int controller=50;
+int x,y,score=0;
+int changeX=-10;
+int changeY=-10;
+int gameOver=0;
+
+
+void setup(){
+  size(800, 600);
+  x=(int)random(width);
+  y=height-(controller+45);
+   font1 = loadFont("font1.vlw");
+  img= loadImage("pic.jpg");
+}
+void draw(){
+  int time = ((millis())/1000);
+
+    if(gameOver==0){
+      background(img);
+      textFont(font1);
+      text("SCORE:"+score,(width/2)-100,100);
+      text("Time(s):"+time,(width/2)-100,150);
+
+
+
+
+  
+//Arms
+fill(130,204,12);
+rect(100,160,20,20);
+rect(180,160,20,20);
+fill(69,104,13);
+beginShape();
+vertex(100,180);
+vertex(100,160);
+vertex(80,160);
+vertex(20,220);
+vertex(60,200);
+vertex(80,200);
+vertex(100,180);
+endShape();
+beginShape();
+vertex(200,160);
+vertex(220,160);
+vertex(280,220);
+vertex(240,200);
+vertex(220,200);
+vertex(200,180);
+endShape();
+
+//Head
+fill(229,200,11);
+stroke(0);
+beginShape();
+vertex(180,180);
+vertex(120,180);
+vertex(100,140);
+vertex(100,100);
+vertex(120,80);
+vertex(180,80);
+vertex(200,100);
+vertex(200,140);
+vertex(180,180);
+endShape();
+
+
+//eyes
+fill(255,40,20);
+ellipse(140,120,20,20);
+ellipse(160,120,20,20);
+
+//pupils
+int xLeft=140;
+int xRight;
+xRight=160;
+int monsterY=120;
+
+if(mouseX < 140){
+  xRight-=5;
+  xLeft-=5;
+}
+if(mouseX >160){
+   xRight+=5;
+  xLeft+=5;
+}
+if (mouseY <100){
+  monsterY-=5;
+}
+if (mouseY >140){
+  monsterY+=5;
+}
+  
+fill(0,0,0);
+ellipse(xLeft,monsterY,3,3);
+ellipse(xRight,monsterY,3,3);
+
+
+//eyebrows
+line(130,90,142,105);
+line(170,90,158,105);
+noStroke();
+
+
+//horns
+triangle(140,80,100,40,120,80);
+triangle(160,80,200,40,180,80);
+
+
+//mouth
+stroke(0);
+fill(91,0,18);
+beginShape();
+vertex(140,160);
+vertex(120,150);
+vertex(140,140);
+vertex(150,152);
+vertex(160,140);
+vertex(170,152);
+vertex(180,140);
+vertex(180,160);
+vertex(170,160);
+vertex(160,154);
+vertex(150,160);
+vertex(140,160);
+endShape();
+
+
+//legs
+stroke(0);
+fill(69,104,13);
+triangle(120,220,100,220,100,240);
+triangle(100,220,140,220,140,240);
+triangle(140,240,140,180,120,180);
+triangle(180,220,200,220,200,240);
+triangle(200,220,160,240,160,220);
+triangle(160,240,180,180,160,180);
+
+
+
+
+
+
+
+
+      fill(255, 222, 12);
+      noStroke();
+      rect(mouseX-100,(height-controller)-20,200,controller);
+      ellipse(x,y,30,30);
+      x+=changeX;
+      y+=changeY;
+      if(x<=0 || x>=width){
+        changeX=-changeX;
+      }
+      if(y<0){
+        changeY=-changeY;
+      }
+      if(y>height-(controller+45)){
+        if(x>mouseX-100 && x<mouseX+100){
+          changeY=-changeY;
+          score++;
+        }
+        else{
+          restart();
+        }
+      }
+    }
+    else{
+      background(0);
+  }
+}
+
+void restart(){
+  gameOver=1;
+}
+
+void mouseClicked(){
+  changeY=-changeY;
+  score=0;
+  gameOver=0;
+}
